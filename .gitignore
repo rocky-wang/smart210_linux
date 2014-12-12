@@ -33,6 +33,7 @@ modules.builtin
 *.patch
 *.gcno
 
+/pro/*
 #
 # Top-level generic files
 #
