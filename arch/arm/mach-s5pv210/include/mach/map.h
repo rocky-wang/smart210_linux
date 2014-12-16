@@ -18,6 +18,13 @@
 
 #define S5PV210_PA_SDRAM		0x20000000
 
+//++++++add by rocky=======================
+#define S5PV210_PA_SROM_BANK0		0x80000000
+#define S5PV210_PA_SROM_BANK1		0x88000000
+#define S5PV210_PA_SROM_BANK2		0x90000000
+#define S5PV210_PA_SROM_BANK3		0x98000000
+#define S5PV210_PA_SROM_BANK4		0xA0000000
+//=====================================
 #define S5PV210_PA_SROM_BANK5		0xA8000000
 
 #define S5PC110_PA_ONENAND		0xB0000000
