@@ -127,6 +127,24 @@ struct platform_device smart210_dm9000 = {
 	},
 };
 
+static void __init smart210_dm9000_init(void)
+{
+	unsigned int tmp;
+
+	gpio_request(S5PV210_MP01(1), "nCS1");
+	s3c_gpio_cfgpin(S5PV210_MP01(1), S3C_GPIO_SFN(2));
+	gpio_free(S5PV210_MP01(1));
+
+	tmp = (5 << S5P_SROM_BCX__TACC__SHIFT);
+	__raw_writel(tmp, S5P_SROM_BC1);
+
+	tmp = __raw_readl(S5P_SROM_BW);
+	tmp &= ~(S5P_SROM_BW__CS_MASK << S5P_SROM_BW__NCS1__SHIFT);
+	tmp |= (1 << S5P_SROM_BW__NCS1__SHIFT);
+    printk("the dm9000 init tmp is %x\n",tmp);
+	__raw_writel(tmp, S5P_SROM_BW);
+}
+
 #endif
 
 static struct platform_device *smart210_devices[] __initdata = {
@@ -145,6 +163,10 @@ static void __init smart210_map_io(void)
 
 static void __init smart210_machine_init(void)
 {
+#ifdef CONFIG_DM9000
+    smart210_dm9000_init();
+#endif
+
 	platform_add_devices(smart210_devices, ARRAY_SIZE(smart210_devices));
 }
 
