@@ -150,6 +150,7 @@ config MACH_SMDKV210
 config MACH_SMART210
 	bool "SMART210"
 	select CPU_S5PV210
+	select S3C_DEV_RTC
 	select SAMSUNG_DEV_PWM
 	help
 		Machine support for rocky smart210

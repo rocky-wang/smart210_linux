@@ -151,6 +151,10 @@ static struct platform_device *smart210_devices[] __initdata = {
 #ifdef CONFIG_DM9000
 	&smart210_dm9000,
 #endif
+#ifdef CONFIG_S3C_DEV_RTC
+    &s3c_device_rtc,
+#endif
+
 };
 
 static void __init smart210_map_io(void)
