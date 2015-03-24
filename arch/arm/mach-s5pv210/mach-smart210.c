@@ -101,8 +101,8 @@ static struct resource smart210_dm9000_resources[] = {
 		.flags	= IORESOURCE_MEM,
 	},
 	[1] = {
-		.start	= S5PV210_PA_SROM_BANK1 + 0x8,
-		.end	= S5PV210_PA_SROM_BANK1 + 0x8,
+		.start	= S5PV210_PA_SROM_BANK1 + 0x4,
+		.end	= S5PV210_PA_SROM_BANK1 + 0x4,
 		.flags	= IORESOURCE_MEM,
 	},
 	[2] = {
@@ -140,7 +140,7 @@ static void __init smart210_dm9000_init(void)
 
 	tmp = __raw_readl(S5P_SROM_BW);
 	tmp &= ~(S5P_SROM_BW__CS_MASK << S5P_SROM_BW__NCS1__SHIFT);
-	tmp |= (1 << S5P_SROM_BW__NCS1__SHIFT);
+	tmp |= (0x3 << S5P_SROM_BW__NCS1__SHIFT);
     printk("the dm9000 init tmp is %x\n",tmp);
 	__raw_writel(tmp, S5P_SROM_BW);
 }
