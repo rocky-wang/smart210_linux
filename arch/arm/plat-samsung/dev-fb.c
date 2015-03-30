@@ -27,7 +27,7 @@
 static struct resource s3c_fb_resource[] = {
 	[0] = {
 		.start = S3C_PA_FB,
-		.end   = S3C_PA_FB + SZ_16K - 1,
+		.end   = S3C_PA_FB + SZ_32K - 1,
 		.flags = IORESOURCE_MEM,
 	},
 	[1] = {
@@ -38,11 +38,6 @@ static struct resource s3c_fb_resource[] = {
 	[2] = {
 		.start = IRQ_LCD_FIFO,
 		.end   = IRQ_LCD_FIFO,
-		.flags = IORESOURCE_IRQ,
-	},
-	[3] = {
-		.start = IRQ_LCD_SYSTEM,
-		.end   = IRQ_LCD_SYSTEM,
 		.flags = IORESOURCE_IRQ,
 	},
 };

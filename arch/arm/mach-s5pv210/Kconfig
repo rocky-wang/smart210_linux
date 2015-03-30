@@ -152,6 +152,8 @@ config MACH_SMART210
 	select CPU_S5PV210
 	select S3C_DEV_RTC
 	select SAMSUNG_DEV_PWM
+	select S3C_DEV_FB
+	select S5PV210_SETUP_FB_24BPP
 	help
 		Machine support for rocky smart210
 		

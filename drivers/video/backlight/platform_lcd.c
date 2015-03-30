@@ -85,6 +85,7 @@ static int __devinit platform_lcd_probe(struct platform_device *pdev)
 		return -EINVAL;
 	}
 
+    printk("platform lcd power!\n");
 	plcd = kzalloc(sizeof(struct platform_lcd), GFP_KERNEL);
 	if (!plcd) {
 		dev_err(dev, "no memory for state\n");

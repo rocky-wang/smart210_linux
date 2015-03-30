@@ -62,7 +62,7 @@
 				 S5PV210_UFCON_TXTRIG4 |	\
 				 S5PV210_UFCON_RXTRIG4)
 
-static struct s3c2410_uartcfg smart210_uartcfgs[] __initdata = {
+static __initdata struct s3c2410_uartcfg smart210_uartcfgs[]  = {
 	[0] = {
 		.hwport		= 0,
 		.flags		= 0,
@@ -141,26 +141,59 @@ static void __init smart210_dm9000_init(void)
 	tmp = __raw_readl(S5P_SROM_BW);
 	tmp &= ~(S5P_SROM_BW__CS_MASK << S5P_SROM_BW__NCS1__SHIFT);
 	tmp |= (0x3 << S5P_SROM_BW__NCS1__SHIFT);
-    printk("the dm9000 init tmp is %x\n",tmp);
 	__raw_writel(tmp, S5P_SROM_BW);
 }
+#endif
+
+#ifdef CONFIG_S3C_DEV_FB
+static struct s3c_fb_pd_win smart210_fb_win0 = {
+	.win_mode = {
+		.left_margin	= 46,
+		.right_margin	= 210,
+		.upper_margin	= 23,
+		.lower_margin	= 22,
+		.hsync_len	= 1,
+		.vsync_len	= 1,
+		.xres		= 800,
+		.yres		= 480,
+	},
+	.max_bpp	= 32,
+	.default_bpp	= 24,
+};
+
+static __initdata struct s3c_fb_platdata smart210_lcd0_pdata  = {
+	.win[0]		= &smart210_fb_win0,
+	.vidcon0	= VIDCON0_VIDOUT_RGB | VIDCON0_PNRMODE_RGB,
+	.vidcon1	= VIDCON1_INV_HSYNC | VIDCON1_INV_VSYNC,
+	.setup_gpio	= s5pv210_fb_gpio_setup_24bpp,
+};
+
+static struct platform_device s3c_device_1wire = {
+	.name			= "smart210_1wire",
+	.id				= -1,
+	.num_resources	= 0,
+};
 
 #endif
 
-static struct platform_device *smart210_devices[] __initdata = {
+static __initdata struct platform_device *smart210_devices[]  = {
 #ifdef CONFIG_DM9000
 	&smart210_dm9000,
 #endif
 #ifdef CONFIG_S3C_DEV_RTC
     &s3c_device_rtc,
 #endif
-
+#ifdef CONFIG_S3C_DEV_FB
+    &s3c_device_fb,
+    &s3c_device_1wire,
+#endif
 };
 
 static void __init smart210_map_io(void)
 {
 	s5p_init_io(NULL, 0, S5P_VA_CHIPID);
 	s3c24xx_init_clocks(24000000);
+
 	s3c24xx_init_uarts(smart210_uartcfgs, ARRAY_SIZE(smart210_uartcfgs));
 	s5p_set_timer_source(S5P_PWM2, S5P_PWM4);
 }
@@ -169,6 +202,10 @@ static void __init smart210_machine_init(void)
 {
 #ifdef CONFIG_DM9000
     smart210_dm9000_init();
+#endif
+
+#ifdef CONFIG_S3C_DEV_FB
+    s3c_fb_set_platdata(&smart210_lcd0_pdata);
 #endif
 
 	platform_add_devices(smart210_devices, ARRAY_SIZE(smart210_devices));
