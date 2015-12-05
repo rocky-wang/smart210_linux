@@ -75,7 +75,7 @@ $(obj)/uImage: STARTADDR=$(LOADADDR)
 $(obj)/uImage:	$(obj)/zImage FORCE
 	$(call if_changed,uimage)
 	@echo '  Image $@ is ready'
-	cp -f $@ /home/rocky/tftpboot/uImage_smart210
+#	cp -f $@ /home/rocky/tftpboot/uImage_smart210
 
 $(obj)/bootp/bootp: $(obj)/zImage initrd FORCE
 	$(Q)$(MAKE) $(build)=$(obj)/bootp $@
